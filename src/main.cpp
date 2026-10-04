@@ -4,14 +4,17 @@
 
 int main()
 {
+    //Dynamically allocates memory on the Heap, uses a pointer to create a handle named curl
     CURL* curl = curl_easy_init();
 
+    //Error handling for curl not being proprely initalized
     if (curl == nullptr)
     {
         std::cerr << "Failed to initialize libcurl.\n";
         return 1;
     }
 
+    // Configures the target URL inside the session handle's internal state
     curl_easy_setopt(curl, CURLOPT_URL, "https://example.com");
 
     CURLcode result = curl_easy_perform(curl);
