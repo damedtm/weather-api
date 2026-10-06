@@ -5,6 +5,7 @@ A chronologically ordered log of engineering hurdles, toolchain configurations, 
 ---
 
 ##  Entry 1: Toolchain Standardization & CMake Configuration
+   2026-10-02
 
 ###  Objective
 Set up a modern, reproducible C++ build pipeline on Windows using CMake, MinGW-w64, and `libcurl` without hardcoding system paths or relying on legacy configurations.
@@ -57,3 +58,17 @@ Set up a modern, reproducible C++ build pipeline on Windows using CMake, MinGW-w
 - This was my first C++ project. My previous projects were in JavaScript and Python, where I only needed to ignore `.env` files. I learnt that C++ projects also generate build artifacts (`.exe`, `.o`, and the `build/` directory) that should be added to `.gitignore`.
 - I learnt that MSYS2 offers several toolchain environments, and that UCRT64 is generally preferred over MINGW64 because it uses the modern Universal C Runtime.
 - Learning CMake, C++, external libraries, dependencies, toolchains, and PATH configuration has been challenging but rewarding.
+
+---
+
+##  Entry 2: Live Weather Server Integration
+   2026-10-02
+
+###  Objective
+Transition from boilerplate testing to querying a real live weather server (`Open-Meteo`).
+
+###  Implementation
+* Updated target endpoint to Open-Meteo's REST API using `CURLOPT_URL`.
+* Successfully executed the HTTP GET request and verified a live JSON weather payload response.
+
+---
