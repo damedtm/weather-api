@@ -15,7 +15,8 @@ int main()
     }
 
     // Configures the target URL inside the session handle's internal state
-    curl_easy_setopt(curl, CURLOPT_URL, "https://example.com");
+    //Set the url to Open Meteo's API key for testing.
+    curl_easy_setopt(curl, CURLOPT_URL, "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m");
 
     CURLcode result = curl_easy_perform(curl);
 
@@ -30,6 +31,7 @@ int main()
     }
 
     long statusCode = 0;
+    double timeTaken = 0;
 
     curl_easy_getinfo(
         curl,
@@ -37,9 +39,18 @@ int main()
         &statusCode
     );
 
+    curl_easy_getinfo(
+        curl,
+        CURLINFO_TOTAL_TIME,
+        &timeTaken
+    );
+
     std::cout << "\nHTTP status code: "
               << statusCode
-              << '\n';
+              << '\n'
+              << "\nThe total time taken was: "
+              << timeTaken
+              << "s";
 
     curl_easy_cleanup(curl);
 
