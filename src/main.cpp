@@ -67,6 +67,7 @@ int main()
         &timeTaken
     );
 
+    //Print status code, time taken and buffer size
     std::cout << "\nHTTP status code: "
               << statusCode
               << '\n'
