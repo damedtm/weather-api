@@ -72,3 +72,28 @@ Transition from boilerplate testing to querying a real live weather server (`Ope
 * Successfully executed the HTTP GET request and verified a live JSON weather payload response.
 
 ---
+
+##  Entry 3: Heap Buffer Allocation & Write Callback Implementation
+   2026-10-06
+
+###  Objective
+Intercept incoming HTTP network packet chunks delivered by `libcurl` and accumulate the raw JSON payload into a heap-allocated `std::string` buffer instead of dumping data directly to standard output (`stdout`).
+
+###  Implementation
+* **Write Callback Definition:** Defined a C-style callback function signature (`WriteCallback`) to process incoming memory byte chunks (`void* contents`) and append them directly to our string buffer.
+* **Type Casting & Memory Mechanics:** Used `static_cast<std::string*>` to convert `libcurl`'s generic `void*` userdata pointer back into a typed C++ string reference, appending chunk bytes cleanly without data loss.
+* **Option Registration:** Registered `CURLOPT_WRITEFUNCTION` and passed the memory address of our `std::string` instance via `CURLOPT_WRITEDATA`.
+* **Payload Verification:** Verified that raw JSON data is safely captured in process memory by logging the string byte size and displaying a snippet of the captured payload.
+
+---
+
+###  Notes & Reflection
+- **stdout vs. Memory Buffering:** Learned that without `CURLOPT_WRITEFUNCTION`, `libcurl` defaults to `fwrite(..., stdout)`, dumping network packets directly to the terminal stream. Capturing data in memory (`RAM`) via a payload buffer is required before any JSON parsing or data manipulation can occur.
+- **Generic Void Pointers (`void*`):** Understood why C libraries like `libcurl` use `void*` to remain agnostic of caller data structures, requiring explicit C++ type safety casts (`static_cast`) inside callback routines.
+- **AI-Assisted Development & System Design:** Learning the balance between having AI generate 100 percent of code and actually understanding the implementation and system design has been an interesting experience. I like when AI suggests a feature or design and I do my research on it, its benefits and disadvantages before ultimately deciding to implement it or not.
+
+---
+
+###  Next Steps
+- Integrate a JSON parsing library (e.g., `nlohmann/json`) to extract specific weather attributes (temperature, humidity, time series) from the buffered payload.
+- Encapsulate `libcurl` network setup and response handling into a reusable C++ class/module.
